@@ -1,47 +1,27 @@
 #!/bin/bash
 
-checkOrCreateDirectory () {
-  if [ ! -d "$DIR" ]; then
-    ### Take action if $DIR doesn't exists ###
-    echo "$DIR directory created."
-    mkdir "$DIR"
-  fi
-}
-
-checkIfModuleAlreadyExists () {
-  if [ -d "$DIR" ]; then
-    echo "Error: module \"$VENDOR/$MODULE\" already exists."
-    exit 1
-  fi
-}
+set -e # exit script on error
 
 VENDOR="VendorName"
 MODULE="ModuleName"
 CONTROLLER="ControllerName"
 ACTION="ActionName"
 
-DIR="./app"
-checkOrCreateDirectory
+if ! [ -f 'composer.json' ]
+then
+  echo "No composer.json in project root. Are you sure this is a Magento Project? "
+  echo "Exiting..."
+  exit
+fi
 
-DIR="./app/code"
-checkOrCreateDirectory
-
-DIR="./app/code/$VENDOR"
-checkOrCreateDirectory
-
-DIR="./app/code/$VENDOR/$MODULE"
-checkIfModuleAlreadyExists
-
-mkdir "./app/code/$VENDOR/$MODULE"
-mkdir "./app/code/$VENDOR/$MODULE/Block"
-mkdir "./app/code/$VENDOR/$MODULE/Controller"
+echo "Creating base directories structure..."
+  # mkdir -p will automatically create all the parent directories and will fail silently if a directory already exists
+mkdir -p "./app/code/$VENDOR/$MODULE/Block"
+mkdir -p "./app/code/$VENDOR/$MODULE/Controller"
 mkdir "./app/code/$VENDOR/$MODULE/Controller/$CONTROLLER"
-mkdir "./app/code/$VENDOR/$MODULE/etc"
-mkdir "./app/code/$VENDOR/$MODULE/etc/frontend"
-mkdir "./app/code/$VENDOR/$MODULE/etc/frontend/layout"
-mkdir "./app/code/$VENDOR/$MODULE/etc/frontend/templates"
-mkdir "./app/code/$VENDOR/$MODULE/etc/frontend/web"
-mkdir "./app/code/$VENDOR/$MODULE/etc/frontend/web/css"
+mkdir -p "./app/code/$VENDOR/$MODULE/etc/frontend/layout"
+mkdir -p "./app/code/$VENDOR/$MODULE/etc/frontend/templates"
+mkdir -p "./app/code/$VENDOR/$MODULE/etc/frontend/web/css"
 
 ## CREATE REGISTRATION.PHP 
 FILE="./app/code/$VENDOR/$MODULE/registration.php"
@@ -62,7 +42,6 @@ ComponentRegistrar::register(
 
 ## CREATE ACTION FILE
 FILE="./app/code/$VENDOR/$MODULE/Controller/$CONTROLLER/$ACTION.php"
-touch "$FILE"
 echo "<?php
 
 namespace $VENDOR\\$MODULE\Controller\\$CONTROLLER;
