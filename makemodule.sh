@@ -70,17 +70,17 @@ class $ACTION extends \Magento\Framework\App\Action\Action {
 
 FILE="./app/code/$VENDOR/$MODULE/etc/frontend/routes.xml"
 touch "$FILE"
-echo "<?xml version="1.0"?>
+echo "<?xml version=\"1.0\"?>
 <!--
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * * See COPYING.txt for license details.
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
-    <router id="standard">
-        <route id="idname" frontName="slugname">
-            <module name="$VENDOR_$MODULE" />
+<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework:App/etc/routes.xsd\">
+    <router id=\"standard\">
+        <route id=\"idname\" frontName=\"slugname\">
+            <module name=\"$VENDOR_$MODULE\" />
         </route>
     </router>
 </config>
